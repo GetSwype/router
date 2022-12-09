@@ -1,5 +1,6 @@
 import { BigintIsh } from "@uniswap/sdk-core";
 import { Transaction } from "ethers";
+import Web3 from "web3";
 import { Blockchain } from "../core/blockchain";
 import Fee from "./fee";
 import { Token } from "./token";
@@ -53,5 +54,14 @@ export default class Quote {
             from: this.from,
             data: this.calldata,
         }
+    }
+
+    /**
+     * Executes a quote on the blockchain using the web3js library
+     */
+    async execute(): Promise<void> {
+        let web3 = new Web3(this.chain.rpc_url);
+        let transaction = this.to_web3_transaction();
+        await web3.eth.sendTransaction(transaction);
     }
 }
