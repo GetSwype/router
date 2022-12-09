@@ -1,0 +1,30 @@
+{
+  "name": "swyperouter",
+  "version": "0.0.1",
+  "description": "A universal router for on/off-ramping",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GetSwype/router.git"
+  },
+  "author": "swype",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GetSwype/router/issues"
+  },
+  "homepage": "https://github.com/GetSwype/router#readme",
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "vitest": "^0.25.6"
+  },
+  "dependencies": {
+    "@ethersproject/bignumber": "^5.7.0",
+    "@uniswap/sdk-core": "^3.1.0",
+    "@uniswap/smart-order-router": "^3.0.6",
+    "ethers": "^5.7.2",
+    "web3": "^1.8.1"
+  }
+}
