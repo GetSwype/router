@@ -17,7 +17,7 @@ export default class Fee {
         this.limit = limit;
         this.token = token;
         this.total_fee = BigNumber.from(base_fee).mul(BigNumber.from(limit));
-        let fee_in_whole_units = this.total_fee.div(BigNumber.from(10).pow(token.decimals))
-        this.fiat_fee = Math.floor((fee_in_whole_units.mul(token.price).toNumber())*100)
+        let fee_in_whole_units = (this.total_fee.div(BigNumber.from(10).pow(token.decimals))).toNumber()
+        this.fiat_fee = Math.floor((fee_in_whole_units*token.price)*100)
     }
 }
