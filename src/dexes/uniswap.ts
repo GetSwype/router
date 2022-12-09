@@ -1,7 +1,6 @@
-import { BigNumberish } from "@ethersproject/bignumber";
 import { Blockchain, Ethereum } from "../core/blockchain";
 import { Dex } from "../core/dex";
-import { Quote } from "../types/quote";
+import Quote from "../types/quote";
 import { UnsignedTransaction } from "../types/transaction";
 import { AlphaRouter, CurrencyAmount } from '@uniswap/smart-order-router'
 import { ethers } from "ethers";
@@ -10,12 +9,17 @@ import { BigintIsh, Percent, Token as UniswapToken, TradeType } from "@uniswap/s
 import Fee from "../types/fee";
 import { EthereumToken } from "../core/price";
 
+
+/**
+ * The Uniswap DEX class
+ */
 export default class Uniswap extends Dex {
     router_mapping: { [key: string]: AlphaRouter } = {};
     constructor() {
         super(
             "Uniswap",
             [Ethereum],
+            [TradeType.EXACT_INPUT, TradeType.EXACT_OUTPUT],
         )
         this.supported_chains.forEach(chain => {
             this.router_mapping[chain.name] = new AlphaRouter({ chainId: chain.chain_id, provider: new ethers.providers.JsonRpcProvider(chain.rpc_url) })
@@ -44,15 +48,7 @@ export default class Uniswap extends Dex {
             gas_price,
             ether_token
         )
-        let quote = {
-            from_token,
-            to_token,
-            from_token_amount,
-            to_token_amount,
-            chain,
-            fee
-        }
-        return quote;
+        return null
     }
 
     swap(from_token: Token, to_token: Token, chain: Blockchain, from_token_amount?: BigintIsh, to_token_amount?: BigintIsh, slippage?: number): Promise<UnsignedTransaction> {
