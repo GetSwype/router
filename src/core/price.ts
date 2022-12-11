@@ -1,6 +1,3 @@
-
-import { Ethereum } from "./blockchain";
-import { Token } from "../types/token";
 import Web3 from "web3";
 const abi = require("../abi/chainlink.json")
 
@@ -10,22 +7,3 @@ export async function latest_eth_price() {
     let price: any = await contract.methods.latestRoundData().call();
     return price.answer/10**8;
 }
-
-
-export async function EthereumToken(): Promise<Token> {
-    try {
-        let price = await latest_eth_price();
-        return { 
-            address: "0x0000000000000000000000000000000000000000",
-            name: "Ethereum",
-            symbol: "ETH",
-            decimals: 18,
-            price: price,
-            chain: Ethereum,
-            type: 2
-        } as Token;
-    } catch (err) {
-        console.log(err);
-        return null;
-    }
-} 

@@ -29,10 +29,10 @@ export abstract class Dex {
     }
 
     abstract quote(
+        from: string,
         from_token: Token,
         to_token: Token,
         chain: Blockchain,
-        from: string,
         from_token_amount?: BigintIsh,
         to_token_amount?: BigintIsh,
         slippage?: number,

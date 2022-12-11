@@ -1,15 +1,28 @@
-export interface Blockchain {
+import Web3 from "web3";
+import { Token } from "../types/token";
+
+export abstract class Blockchain {
     name: string;
     chain_id: number;
     twc_id: number;
     rpc_url: string;
     explorer_url: string;
-}
+    client: Web3;
 
-export const Ethereum: Blockchain = {
-    name: "Ethereum",
-    chain_id: 1,
-    twc_id: 60,
-    rpc_url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-    explorer_url: "https://etherscan.io"
+    constructor(
+        name: string,
+        chain_id: number,
+        twc_id: number,
+        rpc_url: string,
+        explorer_url: string,
+    ) {
+        this.name = name;
+        this.chain_id = chain_id;
+        this.twc_id = twc_id;
+        this.rpc_url = rpc_url;
+        this.explorer_url = explorer_url;
+        this.client = new Web3(rpc_url)
+    }
+
+    abstract native_token(): Promise<Token>;
 }

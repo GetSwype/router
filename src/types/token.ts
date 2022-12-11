@@ -7,11 +7,11 @@ export declare type Token = {
     decimals: number;
     price: number;
     logo?: string;
-    chain: Blockchain;
+    chain_id: number;
     type: TokenType;
 };
 
-enum TokenType {
+export declare enum TokenType {
     ERC20,
     ERC721,
     NATIVE
