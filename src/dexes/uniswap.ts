@@ -3,7 +3,7 @@ import { Dex } from "../core/dex";
 import Quote from "../types/quote";
 import { AlphaRouter, CurrencyAmount } from '@uniswap/smart-order-router'
 import { BigNumber, ethers, Transaction } from "ethers";
-import { Token } from "../types/token";
+import { Token, TokenType } from "../types/token";
 import { BigintIsh, Percent, Token as UniswapToken, TradeType } from "@uniswap/sdk-core";
 import Fee from "../types/fee";
 import Ethereum from "../blockchains/ethereum";
@@ -38,6 +38,9 @@ export default class Uniswap extends Dex {
             throw new Error(`Chain ${chain.name} is not supported by ${this.name}`);
         }
         const router = this.router_mapping[chain.name];
+
+        if (from_token && from_token.type == TokenType.NATIVE) { from_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
+        if (to_token && to_token.type == TokenType.NATIVE) { to_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
 
         // Consturct the uniswap tokens
         let from_token_uniswap = new UniswapToken(chain.chain_id, from_token.address, from_token.decimals, from_token.symbol, from_token.name);
