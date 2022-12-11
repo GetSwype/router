@@ -39,8 +39,8 @@ export default class Uniswap extends Dex {
         }
         const router = this.router_mapping[chain.name];
 
-        if (from_token && from_token.type == TokenType.NATIVE) { from_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
-        if (to_token && to_token.type == TokenType.NATIVE) { to_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
+        if (from_token && from_token.type == 2) { from_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
+        if (to_token && to_token.type == 2) { to_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
 
         // Consturct the uniswap tokens
         let from_token_uniswap = new UniswapToken(chain.chain_id, from_token.address, from_token.decimals, from_token.symbol, from_token.name);
@@ -101,6 +101,7 @@ export default class Uniswap extends Dex {
             chain,
             fee,
             transaction,
+            this.name
         )
         return quote
     }

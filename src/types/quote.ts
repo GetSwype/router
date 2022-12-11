@@ -13,6 +13,7 @@ export default class Quote {
     chain: Blockchain;
     fee: Fee;
     transaction: Transaction;
+    dex: string;
 
     constructor(
         from_token_amount: BigintIsh,
@@ -20,11 +21,13 @@ export default class Quote {
         chain: Blockchain,
         fee: Fee,
         transaction: Transaction,
+        dex: string,
     ) {
         this.from_token_amount = from_token_amount;
         this.to_token_amount = to_token_amount;
         this.chain = chain;
         this.fee = fee;
         this.transaction = transaction;
+        this.dex = dex;
     }
 }

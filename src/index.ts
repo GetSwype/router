@@ -1,7 +1,14 @@
 import Ethereum from "./blockchains/ethereum";
+import Aggregator from "./core/aggregator";
+import Paraswap from "./dexes/paraswap";
 import Uniswap from "./dexes/uniswap";
 
-let swapper = new Uniswap();
+let swapper = new Aggregator(
+    [
+        new Uniswap(),
+        new Paraswap()
+    ]
+);
 
 let from_token = {
     address: "0x6b175474e89094c44da98b954eedeac495271d0f",
@@ -33,6 +40,7 @@ swapper.quote(
     console.log("Quote: ", quote);
     console.log("Amount of dai to send: ", quote.from_token_amount.toString());
     console.log("Amount of eth to receive: ", quote.to_token_amount.toString());
+    console.log("Best dex: ", quote.dex);
 }).catch(err => {
     console.log(err);
 })
