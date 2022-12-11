@@ -1,6 +1,5 @@
 import { Blockchain } from "./blockchain";
 import Quote from "../types/quote";
-import { UnsignedTransaction } from "../types/transaction";
 import { Token } from "../types/token";
 import { BigintIsh, TradeType } from "@uniswap/sdk-core";
 
@@ -33,17 +32,9 @@ export abstract class Dex {
         from_token: Token,
         to_token: Token,
         chain: Blockchain,
+        from: string,
         from_token_amount?: BigintIsh,
         to_token_amount?: BigintIsh,
         slippage?: number,
     ): Promise<Quote>;
-
-    abstract swap(
-        from_token: Token,
-        to_token: Token,
-        chain: Blockchain,
-        from_token_amount?: BigintIsh,
-        to_token_amount?: BigintIsh,
-        slippage?: number,
-    ): Promise <UnsignedTransaction>;
 }

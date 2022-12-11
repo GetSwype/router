@@ -1,5 +1,5 @@
 import { BigintIsh } from "@uniswap/sdk-core";
-import { Transaction } from "ethers";
+import { BigNumber, Transaction } from "ethers";
 import Web3 from "web3";
 import { Blockchain } from "../core/blockchain";
 import Fee from "./fee";
@@ -19,6 +19,7 @@ export default class Quote {
     calldata: string;
     from: string;
     to: string;
+    value: BigintIsh;
 
     constructor(
         from_token: Token,
@@ -30,6 +31,7 @@ export default class Quote {
         calldata: string,
         from: string,
         to: string,
+        value: BigintIsh,
     ) {
         this.from_token = from_token;
         this.to_token = to_token;
@@ -48,20 +50,13 @@ export default class Quote {
     to_web3_transaction(nonce?: number): Transaction {
         return {
             nonce: nonce,
-            gasLimit: this.fee.limit,
-            gasPrice: this.fee.base_fee,
+            gasLimit: BigNumber.from(this.fee.limit.toString()),
+            gasPrice: BigNumber.from(this.fee.base_fee.toString()),
             to: this.to,
             from: this.from,
             data: this.calldata,
+            chainId: this.chain.chain_id,
+            value: BigNumber.from(this.value.toString())
         }
-    }
-
-    /**
-     * Executes a quote on the blockchain using the web3js library
-     */
-    async execute(): Promise<void> {
-        let web3 = new Web3(this.chain.rpc_url);
-        let transaction = this.to_web3_transaction();
-        await web3.eth.sendTransaction(transaction);
     }
 }

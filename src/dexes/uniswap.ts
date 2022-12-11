@@ -26,7 +26,15 @@ export default class Uniswap extends Dex {
         })
     }
 
-    async quote(from_token: Token, to_token: Token, chain: Blockchain, from_token_amount?: BigintIsh, to_token_amount?: BigintIsh, slippage?: number): Promise<Quote> {
+    async quote(
+        from_token: Token, 
+        to_token: Token, 
+        chain: Blockchain, 
+        from: string,
+        from_token_amount?: BigintIsh, 
+        to_token_amount?: BigintIsh, 
+        slippage?: number
+    ): Promise<Quote> {
         const router = this.router_mapping[chain.name];
         let from_token_uniswap = new UniswapToken(chain.chain_id, from_token.address, from_token.decimals, from_token.symbol, from_token.name);
         let to_token_uniswap = new UniswapToken(chain.chain_id, to_token.address, to_token.decimals, to_token.symbol, to_token.name);
@@ -37,10 +45,16 @@ export default class Uniswap extends Dex {
                 amount,
                 trade_type == TradeType.EXACT_INPUT ? to_token_uniswap : from_token_uniswap,
                 trade_type,
+                {
+                    slippageTolerance: new Percent(slippage ? slippage : 1, 100),
+                    recipient: from,
+                    type: 0,
+                    deadline: Math.floor(new Date().getTime() / 1000) + (60*60),
+                }
             ),
             await EthereumToken()
         ])
-        // console.log(route);
+        console.log(route.trade.out)
         let gas_used = route.estimatedGasUsed;
         let gas_price = route.gasPriceWei;
         let fee = new Fee(
@@ -49,10 +63,5 @@ export default class Uniswap extends Dex {
             ether_token
         )
         return null
-    }
-
-    swap(from_token: Token, to_token: Token, chain: Blockchain, from_token_amount?: BigintIsh, to_token_amount?: BigintIsh, slippage?: number): Promise<UnsignedTransaction> {
-        
-        throw new Error("Method not implemented.");
     }
 }
