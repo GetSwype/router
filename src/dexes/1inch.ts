@@ -12,7 +12,7 @@ export default class OneInch extends Dex {
             "1inch",
             [ Ethereum.get_instance() ],
             [ TradeType.EXACT_INPUT ],
-            "'https://api.1inch.io/v5.0/",
+            "https://api.1inch.io/v5.0/",
         )
     }
 
@@ -53,6 +53,18 @@ export default class OneInch extends Dex {
             chain.client.eth.getTransactionCount(from)
         ])
         
+        if (quote.status != 200) {
+            throw new Error("1inch quote failed")
+        }
+        if (route.status != 200) {
+            throw new Error("1inch route failed")
+        }
+
+        let quote_data = await quote.data
+        let route_data = await route.data
+
+        console.log("Quote: ", quote_data)
+        console.log("Route: ", route_data)
         return null
     }
 }

@@ -61,7 +61,7 @@ export default class Paraswap extends Dex {
         if (route.status != 200) {
             throw new Error("Paraswap API returned an error");
         }
-        let json: any = await route.data;
+        let json: any = route.data;
         let priceRoute = json.priceRoute;
         console.log("Price Route: ", priceRoute);
 
@@ -88,7 +88,7 @@ export default class Paraswap extends Dex {
         if (transaction_request.status != 200) {
             throw new Error("Paraswap API returned an error");
         }
-        let transaction_data: any = await transaction_request.data;
+        let transaction_data: any = transaction_request.data;
         console.log("Transaction: ", transaction_data);
 
         let transaction = {

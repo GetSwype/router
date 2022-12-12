@@ -1,5 +1,6 @@
 import Ethereum from "./blockchains/ethereum";
 import Aggregator from "./core/aggregator";
+import OneInch from "./dexes/1inch";
 import Paraswap from "./dexes/paraswap";
 import Uniswap from "./dexes/uniswap";
 
@@ -9,6 +10,8 @@ let swapper = new Aggregator(
         new Paraswap()
     ]
 );
+
+let lInch = new OneInch();
 
 let from_token = {
     address: "0x6b175474e89094c44da98b954eedeac495271d0f",
@@ -30,7 +33,7 @@ let to_token = {
     type: 0
 }
 
-swapper.quote(
+lInch.quote(
     "0x4548Ea5A0d5a294B242a19b1A0BA3dcD3489E1C5",
     from_token,
     to_token,
