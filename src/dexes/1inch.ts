@@ -1,7 +1,7 @@
 import { Token, Quote, Fee, ethers, BigNumber, Transaction, AlphaRouter, CurrencyAmount, BigintIsh, Percent, UniswapToken, TradeType } from "../types";
 import { Ethereum, Polygon, Optimism, Arbitrum } from "../blockchains";
 import { Dex, Blockchain } from "../core";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 export class OneInch extends Dex {
     constructor() {
@@ -36,44 +36,43 @@ export class OneInch extends Dex {
         slippage = slippage || 0.5
         let disableEstimate = true
 
-        let [ quote, route, native_token, nonce ] = await Promise.all([
-            axios.get(this.url!+chain.chain_id+"/quote?"+new URLSearchParams({
-                fromTokenAddress,
-                toTokenAddress,
-                amount,
-            }),
-                {
-                    headers: { "Accept-Encoding": "gzip,deflate,compress" } 
-                }
-            ),
-            axios.get(this.url!+chain.chain_id+"/swap?"+new URLSearchParams({
-                fromTokenAddress,
-                toTokenAddress,
-                amount,
-                fromAddress,
-                slippage: `${slippage}`,
-                disableEstimate: `${disableEstimate}`,
-            }),
-                {
-                    headers: { "Accept-Encoding": "gzip,deflate,compress" } 
-                }
-            ),
-            chain.native_token(),
-            chain.client.eth.getTransactionCount(from)
-        ])
-        
-        if (quote.status != 200) {
-            throw new Error("1inch quote failed")
-        }
-        if (route.status != 200) {
-            throw new Error("1inch route failed")
+        let route: AxiosResponse<any>,
+            quote: AxiosResponse<any>,
+            native_token: Token,
+            nonce: number;
+
+        try {
+            [ quote, route, native_token, nonce ] = await Promise.all([
+                axios.get(this.url!+chain.chain_id+"/quote?"+new URLSearchParams({
+                    fromTokenAddress,
+                    toTokenAddress,
+                    amount,
+                }),
+                    {
+                        headers: { "Accept-Encoding": "gzip,deflate,compress" } 
+                    }
+                ),
+                axios.get(this.url!+chain.chain_id+"/swap?"+new URLSearchParams({
+                    fromTokenAddress,
+                    toTokenAddress,
+                    amount,
+                    fromAddress,
+                    slippage: `${slippage}`,
+                    disableEstimate: `${disableEstimate}`,
+                }),
+                    {
+                        headers: { "Accept-Encoding": "gzip,deflate,compress" } 
+                    }
+                ),
+                chain.native_token(),
+                chain.client.eth.getTransactionCount(from)
+            ])
+        }catch(error) {
+            throw new Error("1inch API error")
         }
 
         let quote_data = await quote.data
         let route_data = await route.data
-
-        console.log("Quote: ", quote_data)
-        console.log("Route: ", route_data)
 
         let quote_ = new Quote(
             route_data.fromTokenAmount,

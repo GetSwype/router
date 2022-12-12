@@ -59,7 +59,7 @@ export class Uniswap extends Dex {
                 {
                     slippageTolerance: new Percent(slippage ? slippage : 1, 100),
                     recipient: from,
-                    type: 0,
+                    type: 1,
                     // Deadline in 30 mins
                     deadline: Math.floor(Date.now() / 1000) + (60 * 30),
                 }
@@ -67,9 +67,6 @@ export class Uniswap extends Dex {
             chain.native_token(),
             chain.client.eth.getTransactionCount(from)
         ])
-        console.log("Trade route: ", route)
-        console.log("Native token: ", native_token)
-        console.log("Quote: ", route.quote.numerator.toString())
 
         from_token_amount ??= route.quote.numerator.toString();
         to_token_amount ??= route.quote.numerator.toString();
@@ -92,8 +89,6 @@ export class Uniswap extends Dex {
             value: BigNumber.from(route.methodParameters.value),
             chainId: chain.chain_id,
         } as Transaction
-        
-        console.log("Transaction: ", transaction)
 
         // Build the quote
         let quote = new Quote(

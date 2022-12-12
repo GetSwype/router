@@ -59,7 +59,6 @@ export class Paraswap extends Dex {
         }
         let json: any = route.data;
         let priceRoute = json.priceRoute;
-        console.log("Price Route: ", priceRoute);
 
         from_token_amount ??= priceRoute.srcAmount;
         to_token_amount ??= priceRoute.destAmount;
@@ -85,7 +84,6 @@ export class Paraswap extends Dex {
             throw new Error("Paraswap API returned an error");
         }
         let transaction_data: any = transaction_request.data;
-        console.log("Transaction: ", transaction_data);
 
         let transaction = {
             to: transaction_data.to,
