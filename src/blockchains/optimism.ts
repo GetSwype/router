@@ -2,7 +2,7 @@ import { Blockchain } from "../core/blockchain";
 import { latest_eth_price } from "../core/price";
 import { Token } from "../types/token";
 
-export default class Optimism extends Blockchain {
+export class Optimism extends Blockchain {
     private static instance: Optimism;
     private constructor() {
         super(

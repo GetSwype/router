@@ -1,7 +1,7 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber"
 import { Token } from "./token";
 
-export default class Fee {
+export class Fee {
     base_fee: BigNumberish;
     limit: BigNumberish;
     token: Token;

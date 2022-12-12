@@ -2,7 +2,7 @@ import { Blockchain } from "../core/blockchain";
 import { latest_eth_price } from "../core/price";
 import { Token } from "../types/token";
 
-export default class Ethereum extends Blockchain {
+export class Ethereum extends Blockchain {
     private static instance: Ethereum;
     private constructor() {
         super(

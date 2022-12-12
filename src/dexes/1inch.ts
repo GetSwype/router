@@ -1,17 +1,9 @@
-import { BigintIsh, TradeType } from "@uniswap/sdk-core"
-import axios from "axios"
-import { Transaction } from "ethers"
-import Arbitrum from "../blockchains/arbitrum"
-import Ethereum from "../blockchains/ethereum"
-import Optimism from "../blockchains/optimism"
-import Polygon from "../blockchains/polygon"
-import { Blockchain } from "../core/blockchain"
-import { Dex } from "../core/dex"
-import { Token } from "../types"
-import Fee from "../types/fee"
-import Quote from "../types/quote"
+import { Token, Quote, Fee, ethers, BigNumber, Transaction, AlphaRouter, CurrencyAmount, BigintIsh, Percent, UniswapToken, TradeType } from "../types";
+import { Ethereum, Polygon, Optimism, Arbitrum } from "../blockchains";
+import { Dex, Blockchain } from "../core";
+import axios from "axios";
 
-export default class OneInch extends Dex {
+export class OneInch extends Dex {
     constructor() {
         super(
             "1inch",

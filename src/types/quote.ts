@@ -1,13 +1,13 @@
 import { BigintIsh } from "@uniswap/sdk-core";
 import { Transaction } from "ethers";
 import { Blockchain } from "../core/blockchain";
-import Fee from "./fee";
+import { Fee } from "./fee";
 
 
 /**
  * The default quote class that is returned by the DEX class when asking for a quote with calldata
  */
-export default class Quote {
+export class Quote {
     from_token_amount: BigintIsh;
     to_token_amount: BigintIsh;
     chain: Blockchain;

@@ -2,7 +2,7 @@ import { Blockchain } from "../core/blockchain";
 import { latest_polygon_price } from "../core/price";
 import { Token } from "../types/token";
 
-export default class Polygon extends Blockchain {
+export class Polygon extends Blockchain {
     private static instance: Polygon;
     private constructor() {
         super(

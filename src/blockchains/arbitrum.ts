@@ -2,7 +2,7 @@ import { Blockchain } from "../core/blockchain";
 import { latest_eth_price } from "../core/price";
 import { Token } from "../types/token";
 
-export default class Arbitrum extends Blockchain {
+export class Arbitrum extends Blockchain {
     private static instance: Arbitrum;
     private constructor() {
         super(

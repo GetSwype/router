@@ -1,21 +1,12 @@
-import { Blockchain } from "../core/blockchain";
-import { Dex } from "../core/dex";
-import Quote from "../types/quote";
-import { AlphaRouter, CurrencyAmount } from '@uniswap/smart-order-router'
-import { BigNumber, ethers, Transaction } from "ethers";
-import { Token, TokenType } from "../types/token";
-import { BigintIsh, Percent, Token as UniswapToken, TradeType } from "@uniswap/sdk-core";
-import Fee from "../types/fee";
-import Ethereum from "../blockchains/ethereum";
-import Polygon from "../blockchains/polygon";
-import Optimism from "../blockchains/optimism";
-import Arbitrum from "../blockchains/arbitrum";
+import { Token, Quote, Fee, ethers, BigNumber, Transaction, AlphaRouter, CurrencyAmount, BigintIsh, Percent, UniswapToken, TradeType } from "../types";
+import { Ethereum, Polygon, Optimism, Arbitrum } from "../blockchains";
+import { Dex, Blockchain } from "../core";
 
 
 /**
  * The Uniswap DEX class
  */
-export default class Uniswap extends Dex {
+export class Uniswap extends Dex {
     router_mapping: { [key: string]: AlphaRouter } = {};
     constructor() {
         super(

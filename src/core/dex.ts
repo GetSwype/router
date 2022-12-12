@@ -1,8 +1,5 @@
+import { Token, Quote, BigintIsh, TradeType } from "../types";
 import { Blockchain } from "./blockchain";
-import Quote from "../types/quote";
-import { Token } from "../types/token";
-import { BigintIsh, TradeType } from "@uniswap/sdk-core";
-
 
 /**
  * The base DEX class that all DEXes should extend

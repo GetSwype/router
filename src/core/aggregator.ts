@@ -1,8 +1,6 @@
-import { BigintIsh, TradeType } from "@uniswap/sdk-core";
-import { Token } from "../types";
-import Quote from "../types/quote";
-import { Blockchain } from "./blockchain";
+import { Token, Quote, BigintIsh, TradeType } from "../types";
 import { Dex } from "./dex";
+import { Blockchain } from "./blockchain";
 
 export default class Aggregator {
     dexes: Dex[];
