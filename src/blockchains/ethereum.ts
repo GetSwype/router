@@ -29,4 +29,13 @@ export class Ethereum extends Blockchain {
             type: 2
         }
     }
+
+    usdc_token(): Token {
+        return {
+            address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            decimals: 6,
+            chain_id: this.chain_id,
+            type: 0
+        }
+    }
 }

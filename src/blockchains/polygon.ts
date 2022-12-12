@@ -29,4 +29,13 @@ export class Polygon extends Blockchain {
             type: 2
         }
     }
+
+    usdc_token(): Token {
+        return {
+            address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+            decimals: 6,
+            chain_id: this.chain_id,
+            type: 0
+        }
+    }
 }

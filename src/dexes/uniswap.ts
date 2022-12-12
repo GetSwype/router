@@ -33,8 +33,24 @@ export class Uniswap extends Dex {
         }
         const router = this.router_mapping[chain.name];
 
-        if (from_token && from_token.type == 2) { from_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
-        if (to_token && to_token.type == 2) { to_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
+        // ---------------------- Handle ETH ----------------------
+        if (from_token && from_token.type == 2) {
+            switch (chain.chain_id) {
+                case 1: from_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"; break;
+                case 10: from_token.address = "0x4200000000000000000000000000000000000006"; break;
+                case 42161: from_token.address = "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"; break;
+                case 137: from_token.address = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; break;
+            }
+        }
+        if (to_token && to_token.type == 2) {
+            switch (chain.chain_id) {
+                case 1: to_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"; break;
+                case 10: to_token.address = "0x4200000000000000000000000000000000000006"; break;
+                case 42161: to_token.address = "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"; break;
+                case 137: to_token.address = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; break;
+            }
+        }
+        // ---------------------- Handle ETH ----------------------
 
         // Consturct the uniswap tokens
         let from_token_uniswap = new UniswapToken(chain.chain_id, from_token.address, from_token.decimals, "", "");

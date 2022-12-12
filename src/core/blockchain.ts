@@ -19,4 +19,5 @@ export abstract class Blockchain {
     }
 
     abstract native_token(): Promise<Token>;
+    abstract usdc_token(): Token;
 }

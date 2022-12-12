@@ -29,4 +29,13 @@ export class Arbitrum extends Blockchain {
             type: 2
         }
     }
+
+    usdc_token(): Token {
+        return {
+            address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
+            decimals: 6,
+            chain_id: this.chain_id,
+            type: 0
+        }
+    }
 }

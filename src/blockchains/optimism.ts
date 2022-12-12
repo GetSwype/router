@@ -29,4 +29,13 @@ export class Optimism extends Blockchain {
             type: 2
         }
     }
+
+    usdc_token(): Token {
+        return {
+            address: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
+            decimals: 6,
+            chain_id: this.chain_id,
+            type: 0
+        }
+    }
 }
