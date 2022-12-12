@@ -2,23 +2,23 @@ import { Blockchain } from "../core/blockchain";
 import { latest_eth_price } from "../core/price";
 import { Token } from "../types/token";
 
-export default class Ethereum extends Blockchain {
-    private static instance: Ethereum;
+export default class Optimism extends Blockchain {
+    private static instance: Optimism;
     private constructor() {
         super(
-            "Ethereum",
-            1,
-            60,
-            "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-            "https://etherscan.io/tx/"
+            "Optimism",
+            10,
+            1000700,
+            "https://mainnet.optimism.io",
+            "https://optimistic.etherscan.io/tx/"
         )
     }
 
-    public static get_instance(): Ethereum {
-        if (!Ethereum.instance) {
-            Ethereum.instance = new Ethereum();
+    public static get_instance(): Optimism {
+        if (!Optimism.instance) {
+            Optimism.instance = new Optimism();
         }
-        return Ethereum.instance;
+        return Optimism.instance;
     }
 
     async native_token(): Promise<Token> {

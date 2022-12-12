@@ -1,7 +1,10 @@
 import { BigintIsh, TradeType } from "@uniswap/sdk-core";
 import axios from "axios";
 import { Transaction } from "ethers";
+import Arbitrum from "../blockchains/arbitrum";
 import Ethereum from "../blockchains/ethereum";
+import Optimism from "../blockchains/optimism";
+import Polygon from "../blockchains/polygon";
 import { Blockchain } from "../core/blockchain";
 import { Dex } from "../core/dex";
 import { Token } from "../types";
@@ -12,7 +15,7 @@ export default class Paraswap extends Dex {
     constructor() {
         super(
             "Paraswap",
-            [ Ethereum.get_instance() ],
+            [ Ethereum.get_instance(), Polygon.get_instance(), Arbitrum.get_instance(), Optimism.get_instance() ],
             [ TradeType.EXACT_INPUT, TradeType.EXACT_OUTPUT ],
             "https://apiv5.paraswap.io/",
         );

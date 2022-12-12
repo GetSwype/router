@@ -1,7 +1,10 @@
 import { BigintIsh, TradeType } from "@uniswap/sdk-core"
 import axios from "axios"
 import { Transaction } from "ethers"
+import Arbitrum from "../blockchains/arbitrum"
 import Ethereum from "../blockchains/ethereum"
+import Optimism from "../blockchains/optimism"
+import Polygon from "../blockchains/polygon"
 import { Blockchain } from "../core/blockchain"
 import { Dex } from "../core/dex"
 import { Token } from "../types"
@@ -12,7 +15,7 @@ export default class OneInch extends Dex {
     constructor() {
         super(
             "1inch",
-            [ Ethereum.get_instance() ],
+            [ Ethereum.get_instance(), Polygon.get_instance(), Arbitrum.get_instance(), Optimism.get_instance() ],
             [ TradeType.EXACT_INPUT ],
             "https://api.1inch.io/v5.0/",
         )

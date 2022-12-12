@@ -7,3 +7,10 @@ export async function latest_eth_price() {
     let price: any = await contract.methods.latestRoundData().call();
     return price.answer/10**8;
 }
+
+export async function latest_polygon_price() {
+    let web3 = new Web3("https://polygon-rpc.com");
+    let contract = new web3.eth.Contract(abi, "0xAB594600376Ec9fD91F8e885dADF0CE036862dE0");
+    let price: any = await contract.methods.latestRoundData().call();
+    return price.answer/10**8;
+}

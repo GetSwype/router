@@ -7,6 +7,9 @@ import { Token, TokenType } from "../types/token";
 import { BigintIsh, Percent, Token as UniswapToken, TradeType } from "@uniswap/sdk-core";
 import Fee from "../types/fee";
 import Ethereum from "../blockchains/ethereum";
+import Polygon from "../blockchains/polygon";
+import Optimism from "../blockchains/optimism";
+import Arbitrum from "../blockchains/arbitrum";
 
 
 /**
@@ -17,7 +20,7 @@ export default class Uniswap extends Dex {
     constructor() {
         super(
             "Uniswap",
-            [ Ethereum.get_instance() ],
+            [ Ethereum.get_instance(), Polygon.get_instance(), Optimism.get_instance(), Arbitrum.get_instance() ],
             [TradeType.EXACT_INPUT, TradeType.EXACT_OUTPUT],
         )
         this.supported_chains.forEach(chain => {
@@ -43,8 +46,8 @@ export default class Uniswap extends Dex {
         if (to_token && to_token.type == 2) { to_token.address = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
 
         // Consturct the uniswap tokens
-        let from_token_uniswap = new UniswapToken(chain.chain_id, from_token.address, from_token.decimals, from_token.symbol, from_token.name);
-        let to_token_uniswap = new UniswapToken(chain.chain_id, to_token.address, to_token.decimals, to_token.symbol, to_token.name);
+        let from_token_uniswap = new UniswapToken(chain.chain_id, from_token.address, from_token.decimals, "", "");
+        let to_token_uniswap = new UniswapToken(chain.chain_id, to_token.address, to_token.decimals, "", "");
 
         // Get the trade type and amount. If theres a from token amount, that means its an exact input, otherwise its an output.
         let trade_type = from_token_amount ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT;
