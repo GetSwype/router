@@ -38,4 +38,13 @@ export class Arbitrum extends Blockchain {
             type: 0
         }
     }
+
+    weth_token(): Token {
+        return {
+            address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+            decimals: 18,
+            chain_id: this.chain_id,
+            type: 0
+        }
+    }
 }

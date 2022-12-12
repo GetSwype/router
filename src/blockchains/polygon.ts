@@ -38,4 +38,13 @@ export class Polygon extends Blockchain {
             type: 0
         }
     }
+
+    weth_token(): Token {
+        return {
+            address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            decimals: 18,
+            chain_id: this.chain_id,
+            type: 0
+        }
+    }
 }

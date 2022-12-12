@@ -38,4 +38,13 @@ export class Optimism extends Blockchain {
             type: 0
         }
     }
+
+    weth_token(): Token {
+        return {
+            address: "0x4200000000000000000000000000000000000006",
+            decimals: 18,
+            chain_id: this.chain_id,
+            type: 0
+        }
+    }
 }

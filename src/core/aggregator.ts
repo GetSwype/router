@@ -1,8 +1,9 @@
 import { Token, Quote, BigintIsh, TradeType } from "../types";
 import { Dex } from "./dex";
 import { BlockchainFactory } from "./blockchain_factory";
+import { OneInch, Paraswap, Uniswap } from "../dexes";
 
-export default class Aggregator {
+export class Aggregator {
     dexes: Dex[];
     constructor(
         dexes: Dex[],
@@ -55,3 +56,9 @@ export default class Aggregator {
         }
     }
 }
+
+export const DefaultAggregator = new Aggregator([
+    new Uniswap(),
+    new OneInch(),
+    new Paraswap()
+])
