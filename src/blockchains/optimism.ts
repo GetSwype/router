@@ -8,9 +8,7 @@ export class Optimism extends Blockchain {
         super(
             "Optimism",
             10,
-            1000700,
             "https://mainnet.optimism.io",
-            "https://optimistic.etherscan.io/tx/"
         )
     }
 

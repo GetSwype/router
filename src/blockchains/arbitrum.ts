@@ -8,9 +8,7 @@ export class Arbitrum extends Blockchain {
         super(
             "Arbitrum",
             42161,
-            10042221,
             "https://rpc.ankr.com/arbitrum",
-            "https://arbiscan.io/tx/"
         )
     }
 

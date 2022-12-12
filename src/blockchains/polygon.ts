@@ -8,9 +8,7 @@ export class Polygon extends Blockchain {
         super(
             "Polygon",
             137,
-            966,
             "https://polygon-rpc.com",
-            "https://polygonscan.com/tx/"
         )
     }
 

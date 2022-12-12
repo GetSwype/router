@@ -8,9 +8,7 @@ export class Ethereum extends Blockchain {
         super(
             "Ethereum",
             1,
-            60,
             "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-            "https://etherscan.io/tx/"
         )
     }
 

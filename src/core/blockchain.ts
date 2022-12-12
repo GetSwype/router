@@ -4,23 +4,17 @@ import { Token } from "../types/token";
 export abstract class Blockchain {
     name: string;
     chain_id: number;
-    twc_id: number;
     rpc_url: string;
-    explorer_url: string;
     client: Web3;
 
     constructor(
         name: string,
         chain_id: number,
-        twc_id: number,
         rpc_url: string,
-        explorer_url: string,
     ) {
         this.name = name;
         this.chain_id = chain_id;
-        this.twc_id = twc_id;
         this.rpc_url = rpc_url;
-        this.explorer_url = explorer_url;
         this.client = new Web3(rpc_url)
     }
 
