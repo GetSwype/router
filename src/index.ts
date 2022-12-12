@@ -7,11 +7,10 @@ import Uniswap from "./dexes/uniswap";
 let swapper = new Aggregator(
     [
         new Uniswap(),
-        new Paraswap()
+        new Paraswap(),
+        new OneInch(),
     ]
 );
-
-let lInch = new OneInch();
 
 let from_token = {
     address: "0x6b175474e89094c44da98b954eedeac495271d0f",
@@ -33,7 +32,7 @@ let to_token = {
     type: 0
 }
 
-lInch.quote(
+swapper.quote(
     "0x4548Ea5A0d5a294B242a19b1A0BA3dcD3489E1C5",
     from_token,
     to_token,
