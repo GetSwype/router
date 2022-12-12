@@ -47,7 +47,7 @@ export default class Aggregator {
                 let best_quote = quotes[0];
                 for (let quote of quotes) {
                     console.info(`${quote.dex} quote requires: ${quote.from_token_amount} for ${quote.to_token_amount}`)
-                    if (quote.from_token_amount > best_quote.from_token_amount) {
+                    if (quote.from_token_amount < best_quote.from_token_amount) {
                         best_quote = quote;
                     }
                 }

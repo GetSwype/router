@@ -27,6 +27,11 @@ export default class Paraswap extends Dex {
         to_token_amount?: BigintIsh,
         slippage?: number,
     ): Promise<Quote> {
+
+        // If the token is eth, paraswap uses a weird address to denominate it
+        if (from_token && from_token.type == 2) { from_token.address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE" }
+        if (to_token && to_token.type == 2) { to_token.address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE" }
+
         let srcToken = from_token.address
         let destToken = to_token.address
         let amount = (from_token_amount || to_token_amount).toString();
