@@ -8,7 +8,7 @@ export class Polygon extends Blockchain {
         super(
             "Polygon",
             137,
-            "https://polygon-rpc.com",
+            process.env.POLYGON_RPC || "https://polygon-rpc.com",
         )
     }
 

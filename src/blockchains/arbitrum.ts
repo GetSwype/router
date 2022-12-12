@@ -8,7 +8,7 @@ export class Arbitrum extends Blockchain {
         super(
             "Arbitrum",
             42161,
-            "https://rpc.ankr.com/arbitrum",
+            process.env.ARBITRUM_RPC || "https://rpc.ankr.com/arbitrum",
         )
     }
 
