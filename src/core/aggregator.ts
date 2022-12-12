@@ -1,6 +1,6 @@
 import { Token, Quote, BigintIsh, TradeType } from "../types";
 import { Dex } from "./dex";
-import { Blockchain } from "./blockchain";
+import { BlockchainFactory } from "./blockchain_factory";
 
 export default class Aggregator {
     dexes: Dex[];
@@ -14,7 +14,7 @@ export default class Aggregator {
         from: string,
         from_token: Token,
         to_token: Token,
-        chain: Blockchain,
+        chain_id: number,
         from_token_amount?: BigintIsh,
         to_token_amount?: BigintIsh,
         slippage?: number,
@@ -22,6 +22,7 @@ export default class Aggregator {
         let quotes: Quote[] = [];
         let quote_requests = [];
         let trade_type: TradeType = from_token_amount ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT;
+        let chain = BlockchainFactory(chain_id);
         for (let dex of this.dexes) {
             if (dex.supported_chains.includes(chain) && dex.supported_trade_types.includes(trade_type)) {
                 quote_requests.push(dex.quote(from, from_token, to_token, chain, from_token_amount, to_token_amount, slippage));
