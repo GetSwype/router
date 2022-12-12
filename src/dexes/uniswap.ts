@@ -60,7 +60,8 @@ export class Uniswap extends Dex {
                     slippageTolerance: new Percent(slippage ? slippage : 1, 100),
                     recipient: from,
                     type: 0,
-                    deadline: Math.floor(new Date().getTime() / 1000) + (60*60),
+                    // Deadline in 30 mins
+                    deadline: Math.floor(Date.now() / 1000) + (60 * 30),
                 }
             ),
             chain.native_token(),
