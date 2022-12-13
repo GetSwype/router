@@ -1,4 +1,4 @@
-import { Token, Quote, Fee, ethers, BigNumber, Transaction, AlphaRouter, CurrencyAmount, BigintIsh, Percent, UniswapToken, TradeType } from "../types";
+import { Token, Quote, Fee, ethers, BigNumber, Transaction, AlphaRouter, CurrencyAmount, BigintIsh, Percent, UniswapToken, TradeType, SwapRoute } from "../types";
 import { Ethereum, Polygon, Optimism, Arbitrum } from "../blockchains";
 import { Dex, Blockchain } from "../core";
 
@@ -35,10 +35,10 @@ export class Uniswap extends Dex {
 
         // ---------------------- Handle ETH ----------------------
         if (from_token && from_token.type == 2) {
-            from_token.address = chain.weth_token().address;
+            from_token.address = chain.wrapped_native_token().address;
         }
         if (to_token && to_token.type == 2) {
-            to_token.address = chain.weth_token().address;
+            to_token.address = chain.wrapped_native_token().address;
         }
         // ---------------------- Handle ETH ----------------------
 
@@ -50,23 +50,31 @@ export class Uniswap extends Dex {
         let trade_type = from_token_amount ? TradeType.EXACT_INPUT : TradeType.EXACT_OUTPUT;
         let amount = from_token_amount ? CurrencyAmount.fromRawAmount(from_token_uniswap, from_token_amount) : CurrencyAmount.fromRawAmount(to_token_uniswap, to_token_amount);
 
-        // Get the route and native token
-        let [ route, native_token, nonce ] = await Promise.all([
-            router.route(
-                amount,
-                trade_type == TradeType.EXACT_INPUT ? to_token_uniswap : from_token_uniswap,
-                trade_type,
-                {
-                    slippageTolerance: new Percent(slippage ? slippage : 1, 100),
-                    recipient: from,
-                    type: 1,
-                    // Deadline in 30 mins
-                    deadline: Math.floor(Date.now() / 1000) + (60 * 30),
-                }
-            ),
-            chain.native_token(),
-            chain.client.eth.getTransactionCount(from)
-        ])
+        let route: SwapRoute,
+            native_token: Token,
+            nonce: number;
+
+        try {
+            // Get the route and native token
+            [ route, native_token, nonce ] = await Promise.all([
+                router.route(
+                    amount,
+                    trade_type == TradeType.EXACT_INPUT ? to_token_uniswap : from_token_uniswap,
+                    trade_type,
+                    {
+                        slippageTolerance: new Percent(slippage ? slippage : 1, 100),
+                        recipient: from,
+                        type: 1,
+                        // Deadline in 30 mins
+                        deadline: Math.floor(Date.now() / 1000) + (60 * 30),
+                    }
+                ),
+                chain.native_token(),
+                chain.client.eth.getTransactionCount(from)
+            ])
+        } catch (e) {
+            throw new Error(`Uniswap API error`)
+        }
 
         from_token_amount ??= route.quote.numerator.toString();
         to_token_amount ??= route.quote.numerator.toString();

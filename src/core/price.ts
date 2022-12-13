@@ -14,3 +14,10 @@ export async function latest_polygon_price() {
     let price: any = await contract.methods.latestRoundData().call();
     return price.answer/10**8;
 }
+
+export async function latest_avalanche_price() {
+    let web3 = new Web3(process.env.POLYGON_RPC || "https://1rpc.io/avax/c");
+    let contract = new web3.eth.Contract(abi, "0x0a77230d17318075983913bc2145db16c7366156");
+    let price: any = await contract.methods.latestRoundData().call();
+    return price.answer/10**8;
+}

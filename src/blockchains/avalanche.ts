@@ -1,26 +1,26 @@
 import { Blockchain } from "../core/blockchain";
-import { latest_eth_price } from "../core/price";
+import { latest_avalanche_price } from "../core/price";
 import { Token } from "../types/token";
 
-export class Ethereum extends Blockchain {
-    private static instance: Ethereum;
+export class Avalanche extends Blockchain {
+    private static instance: Avalanche;
     private constructor() {
         super(
-            "Ethereum",
-            1,
-            process.env.ETHEREUM_RPC || "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+            "Avalanche",
+            43114,
+            process.env.ARBITRUM_RPC || "https://1rpc.io/avax/c",
         )
     }
 
-    public static get_instance(): Ethereum {
-        if (!Ethereum.instance) {
-            Ethereum.instance = new Ethereum();
+    public static get_instance(): Avalanche {
+        if (!Avalanche.instance) {
+            Avalanche.instance = new Avalanche();
         }
-        return Ethereum.instance;
+        return Avalanche.instance;
     }
 
     async native_token(): Promise<Token> {
-        let price = await latest_eth_price();
+        let price = await latest_avalanche_price();
         return {
             address: "0x0000000000000000000000000000000000000000",
             decimals: 18,
@@ -32,7 +32,7 @@ export class Ethereum extends Blockchain {
 
     usdc_token(): Token {
         return {
-            address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            address: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
             decimals: 6,
             chain_id: this.chain_id,
             type: 0
@@ -41,7 +41,7 @@ export class Ethereum extends Blockchain {
 
     wrapped_native_token(): Token {
         return {
-            address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            address: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
             decimals: 18,
             chain_id: this.chain_id,
             type: 0

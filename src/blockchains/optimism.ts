@@ -39,7 +39,7 @@ export class Optimism extends Blockchain {
         }
     }
 
-    weth_token(): Token {
+    wrapped_native_token(): Token {
         return {
             address: "0x4200000000000000000000000000000000000006",
             decimals: 18,

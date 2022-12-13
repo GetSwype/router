@@ -1,7 +1,7 @@
 import { Token, Quote, Fee, ethers, BigNumber, Transaction, AlphaRouter, CurrencyAmount, BigintIsh, Percent, UniswapToken, TradeType } from "../types";
 import { Ethereum, Polygon, Optimism, Arbitrum } from "../blockchains";
 import { Dex, Blockchain } from "../core";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 
 export class Paraswap extends Dex {
@@ -47,44 +47,43 @@ export class Paraswap extends Dex {
             network: `${network}`,
             userAddress,
         }
-
-        let [ route, native_token, nonce ] = await Promise.all([
-            axios.get(this.url!+"prices?"+new URLSearchParams(params)),
-            chain.native_token(),
-            chain.client.eth.getTransactionCount(from),
-        ]);
-
-        if (route.status != 200) {
-            throw new Error("Paraswap API returned an error");
-        }
-        let json: any = route.data;
-        let priceRoute = json.priceRoute;
-
-        from_token_amount ??= priceRoute.srcAmount;
-        to_token_amount ??= priceRoute.destAmount;
-
-        params["priceRoute"] = priceRoute;
-        let transaction_params = {
-            srcToken,
-            destToken,
-            srcDecimals: `${srcDecimals}`,
-            destDecimals: `${destDecimals}`,
-            priceRoute,
-            slippage: `${slippage ? slippage : 50}`,
-            userAddress
-        }
-        if (from_token_amount) {
-            transaction_params["srcAmount"] = amount;
-        } else {
-            transaction_params["destAmount"] = amount;
-        }
-        let transaction_request = await axios.post(this.url!+"transactions/"+chain.chain_id+"?ignoreChecks=true", transaction_params);
-
-        if (transaction_request.status != 200) {
-            throw new Error("Paraswap API returned an error");
+        let route: AxiosResponse<any>,
+            native_token: Token,
+            nonce: number,
+            transaction_request: AxiosResponse<any>,
+            priceRoute: any;
+        try {
+            [ route, native_token, nonce ] = await Promise.all([
+                axios.get(this.url!+"prices?"+new URLSearchParams(params)),
+                chain.native_token(),
+                chain.client.eth.getTransactionCount(from),
+            ]);
+            let json: any = route.data;
+            priceRoute = json.priceRoute;
+    
+            from_token_amount ??= priceRoute.srcAmount;
+            to_token_amount ??= priceRoute.destAmount;
+    
+            params["priceRoute"] = priceRoute;
+            let transaction_params = {
+                srcToken,
+                destToken,
+                srcDecimals: `${srcDecimals}`,
+                destDecimals: `${destDecimals}`,
+                priceRoute,
+                slippage: `${slippage ? slippage : 50}`,
+                userAddress
+            }
+            if (from_token_amount) {
+                transaction_params["srcAmount"] = amount;
+            } else {
+                transaction_params["destAmount"] = amount;
+            }
+            transaction_request = await axios.post(this.url!+"transactions/"+chain.chain_id+"?ignoreChecks=true", transaction_params);
+        } catch (error) {
+            throw new Error("Paraswap API error");
         }
         let transaction_data: any = transaction_request.data;
-
         let transaction = {
             to: transaction_data.to,
             from,

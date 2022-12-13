@@ -39,7 +39,7 @@ export class Arbitrum extends Blockchain {
         }
     }
 
-    weth_token(): Token {
+    wrapped_native_token(): Token {
         return {
             address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
             decimals: 18,

@@ -8,7 +8,7 @@ export class Polygon extends Blockchain {
         super(
             "Polygon",
             137,
-            process.env.POLYGON_RPC || "https://polygon-rpc.com",
+            process.env.POLYGON_RPC || "https://matic-mainnet-archive-rpc.bwarelabs.com",
         )
     }
 
@@ -39,7 +39,7 @@ export class Polygon extends Blockchain {
         }
     }
 
-    weth_token(): Token {
+    wrapped_native_token(): Token {
         return {
             address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             decimals: 18,

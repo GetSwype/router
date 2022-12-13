@@ -26,11 +26,22 @@ export class Aggregator {
         let chain = BlockchainFactory(chain_id);
         for (let dex of this.dexes) {
             if (dex.supported_chains.includes(chain) && dex.supported_trade_types.includes(trade_type)) {
-                quote_requests.push(dex.quote(from, from_token, to_token, chain, from_token_amount, to_token_amount, slippage));
+                quote_requests.push(
+                    withTimeout(5000, dex.quote(from, from_token, to_token, chain, from_token_amount, to_token_amount, slippage))
+                );
             }
         }
 
-        quotes = await Promise.all(quote_requests);
+        let quote_requests_settled = await Promise.allSettled(quote_requests);
+        for (let quote_request of quote_requests_settled) {
+            if (quote_request.status == "fulfilled") {
+                quotes.push(quote_request.value);
+            }
+        }
+
+        if (quotes.length == 0) {
+            throw new Error(`Could not find a quote across all DEXes`);
+        }
         
         switch (trade_type) {
             case TradeType.EXACT_INPUT: {
@@ -56,3 +67,14 @@ export class Aggregator {
         }
     }
 }
+
+const withTimeout = (millis, promise) => {
+    const timeout = new Promise((resolve, reject) =>
+        setTimeout(
+            () => reject(`Timed out after ${millis} ms.`),
+            millis));
+    return Promise.race([
+        promise,
+        timeout
+    ]);
+};
