@@ -21,3 +21,10 @@ export async function latest_avalanche_price() {
     let price: any = await contract.methods.latestRoundData().call();
     return price.answer/10**8;
 }
+
+export async function latest_btc_price() {
+    let web3 = new Web3(process.env.ETHEREUM_RPC || "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
+    let contract = new web3.eth.Contract(abi, "0xf4030086522a5beea4988f8ca5b36dbc97bee88c");
+    let price: any = await contract.methods.latestRoundData().call();
+    return price.answer/10**8;
+}

@@ -1,6 +1,6 @@
 {
   "name": "swyperouter",
-  "version": "0.1.5",
+  "version": "0.1.8",
   "description": "A high level dex aggregator. Aggregates across multiple aggregators and unifies their APIs",
   "main": "src/index.ts",
   "scripts": {
