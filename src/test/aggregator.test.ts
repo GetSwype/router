@@ -1,4 +1,4 @@
-import { Arbitrum, Optimism, Polygon } from "../blockchains";
+import { Arbitrum, Ethereum, Optimism, Polygon } from "../blockchains";
 import { Aggregator } from "../core";
 import { OneInch, Paraswap, Uniswap } from "../dexes";
 import { Portals } from "../dexes/portals";
@@ -7,6 +7,7 @@ import { Portals } from "../dexes/portals";
 let polygon = Polygon.get_instance()
 let arbitrum = Arbitrum.get_instance()
 let optimism = Optimism.get_instance()
+let ethereum = Ethereum.get_instance()
 let uni_token = {
     address: "0xb33eaad8d922b1083446dc23f610c2567fb5180f",
     decimals: 18,
@@ -25,6 +26,12 @@ let dai_token = {
     chain_id: optimism.chain_id,
     type: 0
 }
+let aggregator = new Aggregator([
+    new Uniswap(),
+    new OneInch(),
+    new Paraswap(),
+    new Portals()
+])
 
 test("Test USDC to Uniswap on Polygon", async () => {
     let aggregator = new Aggregator([
@@ -67,13 +74,6 @@ test("Test USDC to Chainlink on Arbitrum", async () => {
 
 
 test("Test USDC to DAI on Optimism", async () => {
-    let aggregator = new Aggregator([
-        new Uniswap(),
-        new OneInch(),
-        new Paraswap(),
-        new Portals()
-    ])
-
     let quote = await aggregator.quote(
         "0x454b2a2f2c9c0f3183a1fddfae2d1a6c5c5c3d3e",
         optimism.usdc_token(),
@@ -81,6 +81,49 @@ test("Test USDC to DAI on Optimism", async () => {
         optimism.chain_id,
         "100000000"
     )
-
     expect(quote).not.toBeNull()
 }, 30000);
+
+test('Test USDC to WMATIC on Polygon', async () => {
+    let quote = await aggregator.quote(
+        "0x454b2a2f2c9c0f3183a1fddfae2d1a6c5c5c3d3e",
+        polygon.usdc_token(),
+        polygon.wrapped_native_token(),
+        polygon.chain_id,
+        "100000000"
+    )
+    expect(quote).not.toBeNull()
+}, 30000)
+
+test('Test USDC to WETH on Arbitrum', async () => {
+    let quote = await aggregator.quote(
+        "0x454b2a2f2c9c0f3183a1fddfae2d1a6c5c5c3d3e",
+        arbitrum.usdc_token(),
+        arbitrum.wrapped_native_token(),
+        arbitrum.chain_id,
+        "100000000"
+    )
+    expect(quote).not.toBeNull()
+}, 30000)
+
+test('Test USDC to WETH on Optimism', async () => {
+    let quote = await aggregator.quote(
+        "0x454b2a2f2c9c0f3183a1fddfae2d1a6c5c5c3d3e",
+        optimism.usdc_token(),
+        optimism.wrapped_native_token(),
+        optimism.chain_id,
+        "100000000"
+    )
+    expect(quote).not.toBeNull()
+}, 30000)
+
+test('Test USDC to WETH on Ethereum', async () => {
+    let quote = await aggregator.quote(
+        "0x454b2a2f2c9c0f3183a1fddfae2d1a6c5c5c3d3e",
+        ethereum.usdc_token(),
+        ethereum.wrapped_native_token(),
+        1,
+        "100000000"
+    )
+    expect(quote).not.toBeNull()
+}, 30000)

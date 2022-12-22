@@ -27,7 +27,7 @@ export class Aggregator {
         for (let dex of this.dexes) {
             if (dex.supported_chains.includes(chain) && dex.supported_trade_types.includes(trade_type)) {
                 quote_requests.push(
-                    withTimeout(5000, dex.quote(from, from_token, to_token, chain, from_token_amount, to_token_amount, slippage))
+                    withTimeout(15000, dex.quote(from, from_token, to_token, chain, from_token_amount, to_token_amount, slippage))
                 );
             }
         }
