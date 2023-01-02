@@ -1,8 +1,8 @@
 {
   "name": "swyperouter",
-  "version": "0.1.9",
+  "version": "0.2.7",
   "description": "A high level dex aggregator. Aggregates across multiple aggregators and unifies their APIs",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest"
   },

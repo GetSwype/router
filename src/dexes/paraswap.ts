@@ -33,7 +33,7 @@ export class Paraswap extends Dex {
         let amount = (from_token_amount || to_token_amount).toString();
         let srcDecimals = from_token.decimals
         let destDecimals = to_token.decimals
-        let side = from_token ? "SELL" : "BUY";
+        let side = from_token_amount ? "SELL" : "BUY";
         let network = chain.chain_id;
         let userAddress = from;
 
@@ -91,7 +91,7 @@ export class Paraswap extends Dex {
             gasLimit: priceRoute.gasCost,
             gasPrice: transaction_data.gasPrice,
             data: transaction_data.data,
-            value: transaction_data.value,
+            value: from_token.type == 2 ? BigNumber.from(from_token_amount) : 0,
             chainId: chain.chain_id,
         } as Transaction
 

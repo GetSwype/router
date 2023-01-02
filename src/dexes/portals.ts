@@ -92,7 +92,7 @@ export class Portals extends Dex {
             {
                 from,
                 to: transaction_data.tx.to,
-                value: transaction_data.tx.value,
+                value: from_token.type == 2 ? BigNumber.from(from_token_amount) : BigNumber.from(0),
                 data: transaction_data.tx.data,
                 nonce,
                 gasPrice: BigNumber.from(gas_price),

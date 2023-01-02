@@ -8,7 +8,7 @@ export class Optimism extends Blockchain {
         super(
             "Optimism",
             10,
-            process.env.OPTIMISM_RPC || "https://mainnet.optimism.io",
+            process.env.OPTIMISM_NODE || "https://mainnet.optimism.io",
         )
     }
 

@@ -11,6 +11,7 @@ export class OneInch extends Dex {
             [ TradeType.EXACT_INPUT ],
             "https://api.1inch.io/v5.0/",
         )
+        Blockchain
     }
 
     async quote(
@@ -39,10 +40,11 @@ export class OneInch extends Dex {
         let route: AxiosResponse<any>,
             quote: AxiosResponse<any>,
             native_token: Token,
-            nonce: number;
+            nonce: number,
+            gas_price: string;
 
         try {
-            [ quote, route, native_token, nonce ] = await Promise.all([
+            [ quote, route, native_token, nonce, gas_price ] = await Promise.all([
                 axios.get(this.url!+chain.chain_id+"/quote?"+new URLSearchParams({
                     fromTokenAddress,
                     toTokenAddress,
@@ -65,7 +67,8 @@ export class OneInch extends Dex {
                     }
                 ),
                 chain.native_token(),
-                chain.client.eth.getTransactionCount(from)
+                chain.client.eth.getTransactionCount(from),
+                chain.client.eth.getGasPrice()
             ])
         }catch(error) {
             throw new Error("1inch API error")
@@ -79,7 +82,7 @@ export class OneInch extends Dex {
             route_data.toTokenAmount,
             chain,
             new Fee(
-                route_data.tx.gasPrice,
+                gas_price,
                 quote_data.estimatedGas,
                 native_token
             ),
@@ -88,7 +91,8 @@ export class OneInch extends Dex {
                 to: route_data.tx.to,
                 data: route_data.tx.data,
                 nonce,
-                gasPrice: route_data.gasPrice,
+                value: from_token.type == 2 ? BigNumber.from(from_token_amount) : 0,
+                gasPrice: BigNumber.from(gas_price),
                 gasLimit: quote_data.estimatedGas,
             } as Transaction,
             "1inch"

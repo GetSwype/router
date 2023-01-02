@@ -52,11 +52,12 @@ export class Uniswap extends Dex {
 
         let route: SwapRoute,
             native_token: Token,
-            nonce: number;
+            nonce: number,
+            gas_price: string;
 
         try {
             // Get the route and native token
-            [ route, native_token, nonce ] = await Promise.all([
+            [ route, native_token, nonce, gas_price ] = await Promise.all([
                 router.route(
                     amount,
                     trade_type == TradeType.EXACT_INPUT ? to_token_uniswap : from_token_uniswap,
@@ -70,9 +71,11 @@ export class Uniswap extends Dex {
                     }
                 ),
                 chain.native_token(),
-                chain.client.eth.getTransactionCount(from)
+                chain.client.eth.getTransactionCount(from),
+                chain.client.eth.getGasPrice()
             ])
         } catch (e) {
+            console.log(e)
             throw new Error(`Uniswap API error`)
         }
 
@@ -81,7 +84,6 @@ export class Uniswap extends Dex {
 
         // Get the gas used and gas price to build a fee object
         let gas_used = route.estimatedGasUsed;
-        let gas_price = route.gasPriceWei;
         let fee = new Fee(
             gas_used,
             gas_price,
@@ -92,9 +94,9 @@ export class Uniswap extends Dex {
             from,
             nonce,
             gasLimit: gas_used,
-            gasPrice: gas_price,
+            gasPrice: BigNumber.from(gas_price),
             data: route.methodParameters.calldata,
-            value: BigNumber.from(route.methodParameters.value),
+            value: from_token.type == 2 ? BigNumber.from(from_token_amount) : BigNumber.from(0),
             chainId: chain.chain_id,
         } as Transaction
 

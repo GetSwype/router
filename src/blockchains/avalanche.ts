@@ -8,7 +8,7 @@ export class Avalanche extends Blockchain {
         super(
             "Avalanche",
             43114,
-            process.env.ARBITRUM_RPC || "https://1rpc.io/avax/c",
+            process.env.AVALANCHE_NODE || "https://1rpc.io/avax/c",
         )
     }
 

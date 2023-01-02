@@ -26,6 +26,7 @@ export class Aggregator {
         let chain = BlockchainFactory(chain_id);
         for (let dex of this.dexes) {
             if (dex.supported_chains.includes(chain) && dex.supported_trade_types.includes(trade_type)) {
+                console.log("INCLUDING DEX: " + dex.name)
                 quote_requests.push(
                     withTimeout(15000, dex.quote(from, from_token, to_token, chain, from_token_amount, to_token_amount, slippage))
                 );

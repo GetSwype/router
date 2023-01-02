@@ -8,7 +8,7 @@ export class Polygon extends Blockchain {
         super(
             "Polygon",
             137,
-            process.env.POLYGON_RPC || "https://matic-mainnet-archive-rpc.bwarelabs.com",
+            process.env.POLYGON_NODE || "https://matic-mainnet-archive-rpc.bwarelabs.com",
         )
     }
 
