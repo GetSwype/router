@@ -3,6 +3,7 @@
   "version": "0.2.7",
   "description": "A high level dex aggregator. Aggregates across multiple aggregators and unifies their APIs",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest"
   },
